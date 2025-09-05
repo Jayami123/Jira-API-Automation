@@ -1,0 +1,5 @@
+issueName,issueTitle,description
+Bug,UI alignment issue in dashboard,This is a bug regarding 'UI alignment issue in dashboard'.
+Story,Multi-language support,This is a story regarding 'Multi-language support'.
+Task,Setup staging environment,This is a task regarding 'Setup staging environment'.
+Sub Task,Code review for PR #452,This is a sub task regarding 'Code review for PR #452'.
