@@ -774,7 +774,7 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "ATATT3xFfGF0MqBP4bloVjpvJowiMfTjEo7H1OjLeNhf21Qf6JB5DAFbYZbwUFRBgVtYis_EUNDSSzNXYW0rjxg9bhwa9yjGHQOM4rvR3OqhXG6W4797F6xjY58P9xDW6H0R0t1iDPdBYyiCl4QF_i7zPvLlc2i_uQRr1vPXtJ5HwaBNkuYRXbE=9DDEAC1F",
+									"value": "{{JIRA_API_TOKEN}}",
 									"type": "string"
 								},
 								{
