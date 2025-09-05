@@ -1,0 +1,1550 @@
+{
+	"info": {
+		"_postman_id": "97bc6a38-6fbf-4de7-8ee3-64cb0b474898",
+		"name": "JIRA - FORK testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47657278",
+		"_collection_link": "https://profile2-806238.postman.co/workspace/jayami's-Workspace~12075c75-9082-43aa-8b6a-8ca01a5eeaea/collection/47657278-97bc6a38-6fbf-4de7-8ee3-64cb0b474898?action=share&source=collection_link&creator=47657278"
+	},
+	"item": [
+		{
+			"name": "1 - Project Creation",
+			"item": [
+				{
+					"name": "Get Project ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"try {\r",
+									"    const response = pm.response.json();\r",
+									"    console.log(\"Response:\", response);\r",
+									"\r",
+									"    const projectDetails = response.values || [];\r",
+									"    const projectNameList = projectDetails.map(p => p.name);\r",
+									"    console.log(\"Project names:\", projectNameList);\r",
+									"\r",
+									"    const projectIndex = projectNameList.indexOf('JIRA End to End Testing');\r",
+									"\r",
+									"    if (projectIndex === -1) {\r",
+									"        console.log(\"Project not found. Proceeding with next steps.\");\r",
+									"        pm.collectionVariables.set('projectExists', 'false'); // Project does not exist\r",
+									"    } else {\r",
+									"        const selectedProject = projectDetails[projectIndex];\r",
+									"        const projectId = selectedProject.id;\r",
+									"        const projectKey = selectedProject.key;\r",
+									"\r",
+									"        // Save variables\r",
+									"        pm.collectionVariables.set('projectID', projectId);\r",
+									"        pm.collectionVariables.set('projectKey', projectKey);\r",
+									"        pm.collectionVariables.set('projectExists', 'true'); // Project exists\r",
+									"\r",
+									"        console.log(\"Project found:\", selectedProject.name);\r",
+									"        console.log(\"Project ID:\", projectId);\r",
+									"        console.log(\"Project Key:\", projectKey);\r",
+									"\r",
+									"        // Skip requests up to \"Get All Issue Types for a project\"\r",
+									"        pm.execution.setNextRequest(\"Get All Issue Types for a project\");\r",
+									"    }\r",
+									"\r",
+									"} catch (err) {\r",
+									"    console.error(\"Error in test script:\", err.message);\r",
+									"    pm.collectionVariables.set('projectExists', 'false'); // Safe fallback\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/project/search",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"project",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the list of permission schemes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"let permissionSchemeId = response.permissionSchemes[0].id;\r",
+									"pm.collectionVariables.set(\"permissionSchemeId\", permissionSchemeId);\r",
+									"\r",
+									"console.log(\"Permission Scheme ID:\", permissionSchemeId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Fetch projectID from collection variable\r",
+									"let projectId = pm.collectionVariables.get(\"projectID\");\r",
+									"\r",
+									"// If projectID exists, skip project creation\r",
+									"if (projectId) {\r",
+									"    console.log(`Project already exists with ID: ${projectId}. Skipping project creation requests.`);\r",
+									"    pm.collectionVariables.set(\"skipProjectCreation\", \"true\");\r",
+									"} else {\r",
+									"    console.log(\"No projectID found. Proceeding with project creation.\");\r",
+									"    pm.collectionVariables.set(\"skipProjectCreation\", \"false\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"/*//Fetch projectID from collection variable\r",
+									"let projectId = pm.collectionVariables.get(\"projectID\");\r",
+									"\r",
+									"// If projectID exists, we want to skip everything until \"Get All Issue Types for a project Copy\"\r",
+									"if (projectId) {\r",
+									"    console.log(`Project already exists with ID: ${projectId}. Skipping project creation requests.`);\r",
+									"\r",
+									"    // Set a collection variable flag to indicate skipping\r",
+									"    pm.collectionVariables.set(\"skipProjectCreation\", \"true\");\r",
+									"} else {\r",
+									"    console.log(\"No projectID found. Proceeding with project creation.\");\r",
+									"    pm.collectionVariables.set(\"skipProjectCreation\", \"false\");\r",
+									"}*/\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"// If projectID exists, skip Folder 1\r",
+									"/*if (pm.environment.get(\"projectID\")) {\r",
+									"    postman.setNextRequest(\"Get createdProject\"); // jump to the last request of Folder 1 to finalize\r",
+									"} else {\r",
+									"    console.log(\"No projectID found, will create project...\");\r",
+									"}*/\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/permissionscheme",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"permissionscheme"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the list of notification schemes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"let notificationSchemeId = response.values[0].id;\r",
+									"pm.collectionVariables.set(\"notificationSchemeId\", notificationSchemeId);\r",
+									"\r",
+									"console.log(\"Notification Scheme ID:\", notificationSchemeId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/notificationscheme",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"notificationscheme"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project Types",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"let projectType;\r",
+									"if (Array.isArray(response)) {\r",
+									"    projectType = response.find(item => item.key === \"software\");\r",
+									"} else if (response.key === \"software\") {\r",
+									"    projectType = response;\r",
+									"}\r",
+									"\r",
+									"if (projectType) {\r",
+									"    pm.collectionVariables.set(\"projectTypeKey\", projectType.key);\r",
+									"    console.log(\"ProjectTypeKey:\", projectType.key);\r",
+									"} else {\r",
+									"    console.error(\"Software project type not found in response!\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/project/type",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"project",
+								"type"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project Lead Account ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"let user = response.find(u => u.accountType === \"atlassian\");\r",
+									"\r",
+									"if (user) {\r",
+									"    pm.collectionVariables.set(\"leadAccountId\", user.accountId);\r",
+									"    console.log(\"Saved leadAccountId:\", user.accountId);\r",
+									"} else {\r",
+									"    console.error(\"No Atlassian user found!\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/users/search?query=jayamichamoda1104@gmail.com",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "jayamichamoda1104@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"if (response.key && response.id) {\r",
+									"    \r",
+									"    pm.collectionVariables.set(\"projectKey\", response.key);\r",
+									"    pm.collectionVariables.set(\"projectID\", response.id);\r",
+									"\r",
+									"    console.log(\"Project Key:\", response.key);\r",
+									"    console.log(\"Project ID:\", response.id);\r",
+									"} else {\r",
+									"    console.error(\"Project key or id not found in response!\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"assigneeType\": \"PROJECT_LEAD\",\r\n  \"avatarId\": 10200,\r\n  \"description\": \"This project automates the end-to-end process of issue management in Jira, including project creation, issue creation via CSV input, workflow transitions, and reporting. It demonstrates the ability to programmatically configure Jira projects, populate custom fields, and generate structured reports, simulating a real-world QA automation workflow.\",\r\n  \"issueSecurityScheme\": 10001,\r\n  \"key\": \"APIQA\",\r\n  \"leadAccountId\": \"{{leadAccountId}}\",\r\n  \"name\": \"JIRA End to End Testing\",\r\n  \"notificationScheme\": {{notificationSchemeId}},\r\n  \"permissionScheme\": {{permissionSchemeId}},\r\n  \"projectTemplateKey\": \"com.pyxis.greenhopper.jira:gh-simplified-agility-scrum\",\r\n  \"projectTypeKey\": \"{{projectTypeKey}}\"\r\n \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/project",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the created project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const response = pm.response.json();\r",
+									"console.log(\"Summary:\", response.fields.summary);\r",
+									"\r",
+									"// Save the created Issue ID to collection variable\r",
+									"if (response.id) {\r",
+									"    pm.collectionVariables.set(\"issueIDCreated\", response.id);\r",
+									"    console.log(\"Issue ID saved:\", response.id);\r",
+									"}\r",
+									"\r",
+									"// Status code check\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Field validations\r",
+									"pm.test(\"Summary match\", function () {\r",
+									"    pm.expect(response.fields.summary).to.eql(pm.collectionVariables.get(\"issueTitle\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"projectID match\", function () {\r",
+									"    pm.expect(response.fields.project.id).to.eql(pm.collectionVariables.get(\"projectID\").toString());\r",
+									"});\r",
+									"\r",
+									"pm.test(\"projectKey match\", function () {\r",
+									"    pm.expect(response.fields.project.key).to.eql(pm.collectionVariables.get(\"projectKey\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"IssueType match\", function () {\r",
+									"    pm.expect(response.fields.issuetype.id).to.eql(pm.collectionVariables.get(\"issueID\"));\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/project/{{projectID}}",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"project",
+								"{{projectID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2 - Issue Creation",
+			"item": [
+				{
+					"name": "Get All Issue Types for a project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();   // Correct spelling\r",
+									"\r",
+									"// Extract all \"name\" values\r",
+									"const desiredValues = response.map(value => value.name);\r",
+									"\r",
+									"// Find index of the issue type that matches the variable \"issueName\"\r",
+									"const index = desiredValues.indexOf(pm.variables.get(\"issueName\"));\r",
+									"\r",
+									"if (index !== -1) {\r",
+									"    pm.collectionVariables.set(\"issueID\", response[index].id);\r",
+									"} else {\r",
+									"    console.log(\"Issue type not found:\", pm.variables.get(\"issueName\"));\r",
+									"}\r",
+									"\r",
+									"// Get project name from environment\r",
+									"const projectName = pm.environment.get(\"projectName\");\r",
+									"\r",
+									"let jsonData;\r",
+									"try {\r",
+									"    jsonData = pm.response.json();\r",
+									"} catch (e) {\r",
+									"    console.log(\"Response is not JSON:\", e);\r",
+									"    pm.test(\"Response must be JSON\", function () {\r",
+									"        pm.expect.fail(\"Invalid response format\");\r",
+									"    });\r",
+									"    return;\r",
+									"}\r",
+									"\r",
+									"// Look for project by name\r",
+									"let foundProject = null;\r",
+									"if (jsonData.values && jsonData.values.length > 0) {\r",
+									"    foundProject = jsonData.values.find(p => p.name.toLowerCase() === projectName.toLowerCase());\r",
+									"}\r",
+									"\r",
+									"if (foundProject) {\r",
+									"    // ✅ Project exists\r",
+									"    console.log(`Project already exists with ID: ${foundProject.id}`);\r",
+									"    pm.environment.set(\"projectID\", foundProject.id);\r",
+									"\r",
+									"    // Skip Create Project, jump to Get All Issue Types\r",
+									"    pm.execution.setNextRequest(\"Get All Issue Types for a project\");\r",
+									"} else {\r",
+									"    // ❌ Project not found → flow continues to Create Project request\r",
+									"    console.log(\"Project not found. Proceeding to create it...\");\r",
+									"}\r",
+									"\r",
+									"/*const repsonse =pm.response.json();\r",
+									"const desiredValues = response.map((value)=> value.name);\r",
+									"pm.collectionVariables.set('issueID', response[desiredValues.indexOf(pm.variables.get(\"issueName\"))].id);*/\r",
+									"\r",
+									"\r",
+									"\r",
+									"/*const response = pm.response.json();\r",
+									"console.log(\"Issue Types Response:\", response);\r",
+									"\r",
+									"if (Array.isArray(response)) {\r",
+									"    const issueTypeMap = {\r",
+									"        story: [],\r",
+									"        bug: [],\r",
+									"        task: []\r",
+									"    };\r",
+									"\r",
+									"    response.forEach(issue => {\r",
+									"        const name = issue.name.toLowerCase();\r",
+									"        if (issueTypeMap.hasOwnProperty(name)) {\r",
+									"            issueTypeMap[name].push(issue.id);\r",
+									"        }\r",
+									"    });\r",
+									"\r",
+									"    // Store arrays in variables (as comma-separated strings)\r",
+									"    Object.entries(issueTypeMap).forEach(([type, ids]) => {\r",
+									"        if (ids.length > 0) {\r",
+									"            const varName = `${type}IssueIds`; // plural\r",
+									"            pm.collectionVariables.set(varName, ids.join(\",\"));\r",
+									"            console.log(`✅ Found ${type} IDs:`, ids);\r",
+									"        } else {\r",
+									"            console.warn(`⚠️ No issue type named '${type}' found.`);\r",
+									"        }\r",
+									"    });\r",
+									"} else {\r",
+									"    console.error(\"❌ Unexpected response format — expected an array of issue types.\");\r",
+									"}\r",
+									"*/"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/issuetype/project?projectId={{projectID}}",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issuetype",
+								"project"
+							],
+							"query": [
+								{
+									"key": "projectId",
+									"value": "{{projectID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Assignable Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Check if response is an array and not empty\r",
+									"if (Array.isArray(response) && response.length > 0) {\r",
+									"    const accountId = response[0].accountId;\r",
+									"    console.log(\"Account ID:\", accountId);\r",
+									"    \r",
+									"    // Save to collection variable\r",
+									"    pm.collectionVariables.set('accountId', accountId);\r",
+									"} else {\r",
+									"    console.warn(\"No users found in the response.\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{JIRA_API_TOKEN}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/user/assignable/search?project={{projectID}}",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"user",
+								"assignable",
+								"search"
+							],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{projectID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an Issue",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"issueTitle\", pm.iterationData.get(\"issueTitle\"));\r",
+									"\r",
+									"\r",
+									"//var title = pm.collectionVariables.replaceIn(\"{{$randomPhrase}}\"); "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Save the most recently created issue\r",
+									"pm.collectionVariables.set(\"createdIssueId\", response.id);\r",
+									"pm.collectionVariables.set(\"createdIssueKey\", response.key);\r",
+									"\r",
+									"console.log(\"Created Issue ID:\", response.id);\r",
+									"console.log(\"Created Issue Key:\", response.key);\r",
+									"\r",
+									"// Test: status code 201\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// Log collection variables\r",
+									"console.log(\"Created Issue ID (collection var):\", pm.collectionVariables.get(\"createdIssueId\"));\r",
+									"console.log(\"Created Issue Key (collection var):\", pm.collectionVariables.get(\"createdIssueKey\"));\r",
+									"\r",
+									"// ------------------------\r",
+									"// Save issue specifically for 2nd iteration\r",
+									"// ------------------------\r",
+									"if (pm.info.iteration === 1 && response.id) {\r",
+									"    pm.collectionVariables.set(\"issueIDToUpdate\", response.id);\r",
+									"    pm.collectionVariables.set(\"issueKeyToUpdate\", response.key);\r",
+									"    console.log(\"Saved 2nd iteration issue ID:\", response.id);\r",
+									"    console.log(\"Saved 2nd iteration issue Key:\", response.key);\r",
+									"}\r",
+									"\r",
+									"// ------------------------\r",
+									"// Save issue specifically for 4th iteration\r",
+									"// ------------------------\r",
+									"if (pm.info.iteration === 3 && response.id) {\r",
+									"    pm.collectionVariables.set(\"issueIDToDelete\", response.id);\r",
+									"    pm.collectionVariables.set(\"issueKeyToDelete\", response.key); // renamed for consistency\r",
+									"    console.log(\"Saved 4th iteration issue ID (to delete):\", response.id);\r",
+									"    console.log(\"Saved 4th iteration issue Key (to delete):\", response.key);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fields\": {\r\n    \"summary\": \"{{issueTitle}}\",\r\n    \"description\": {\r\n      \"type\": \"doc\",\r\n      \"version\": 1,\r\n      \"content\": [\r\n        {\r\n          \"type\": \"paragraph\",\r\n          \"content\": [\r\n            { \"type\": \"text\", \"text\": \"{{description}}\" }\r\n          ]\r\n        }\r\n      ]\r\n    },\r\n    \"issuetype\": { \"id\": \"{{issueID}}\" },\r\n    \"project\": { \"id\": \"{{projectID}}\" }\r\n  \r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/issue",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the Created Issue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse response JSON\r",
+									"const response = pm.response.json();\r",
+									"console.log(\"Summary:\", response.fields.summary);\r",
+									"\r",
+									"// Only proceed if response.id exists\r",
+									"if (response.id) {\r",
+									"    // Save general issue IDs\r",
+									"    pm.collectionVariables.set(\"issueIDCreated\", response.id);\r",
+									"    pm.collectionVariables.set(\"issueIDToDelete\", response.id);\r",
+									"    console.log(\"Issue ID saved:\", response.id);\r",
+									"\r",
+									"    // Save specific issues based on summary\r",
+									"    if (response.fields.summary === \"Multi-language support\") {\r",
+									"        pm.collectionVariables.set(\"multiLangIssueKey\", response.key);\r",
+									"        console.log(\"Multi-language support issue Key saved:\", response.key);\r",
+									"    }\r",
+									"\r",
+									"    if (response.fields.summary === \"Code review for PR #452\") {\r",
+									"        pm.collectionVariables.set(\"codeReviewKey\", response.key);\r",
+									"        console.log(\"Code Review issue Key saved:\", response.key);\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"// ------------------------\r",
+									"// Tests\r",
+									"// ------------------------\r",
+									"\r",
+									"// Status code check\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Summary check\r",
+									"pm.test(\"Summary matches expected title\", function () {\r",
+									"    const expectedTitle = pm.collectionVariables.get(\"issueTitle\");\r",
+									"    pm.expect(response.fields.summary).to.eql(expectedTitle);\r",
+									"});\r",
+									"\r",
+									"// Project ID check\r",
+									"pm.test(\"Project ID matches\", function () {\r",
+									"    pm.expect(response.fields.project.id.toString()).to.eql(pm.collectionVariables.get(\"projectID\"));\r",
+									"});\r",
+									"\r",
+									"// Project key check\r",
+									"pm.test(\"Project key matches\", function () {\r",
+									"    pm.expect(response.fields.project.key).to.eql(pm.collectionVariables.get(\"projectKey\"));\r",
+									"});\r",
+									"\r",
+									"// Issue Type check\r",
+									"pm.test(\"Issue Type matches\", function () {\r",
+									"    pm.expect(response.fields.issuetype.id.toString()).to.eql(pm.collectionVariables.get(\"issueID\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/issue/{{createdIssueId}}",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue",
+								"{{createdIssueId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3 - Update Issue",
+			"item": [
+				{
+					"name": "Update an issue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const issueKey = pm.collectionVariables.get(\"multiLangIssueKey\");\r",
+									"\r",
+									"if (issueKey && pm.info.iteration === 1) {\r",
+									"    pm.test(\"Status code is 204\", () => pm.response.to.have.status(204));\r",
+									"    console.log(`Validated: Issue ${issueKey} updated successfully (204)`);\r",
+									"} else {\r",
+									"    console.log(\"Skipping status code validation (request not meant to run)\");\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const issueKey = pm.collectionVariables.get(\"multiLangIssueKey\");\r",
+									"\r",
+									"// Only run update on iteration 1 when issueKey exists\r",
+									"if (!issueKey || pm.info.iteration !== 1) {\r",
+									"    console.log(\r",
+									"        !issueKey\r",
+									"            ? \"Skipping Update Issue because multiLangIssueKey is missing\"\r",
+									"            : `Skipping Update Issue because iteration is ${pm.info.iteration}`\r",
+									"    );\r",
+									"    return pm.execution.skipRequest();\r",
+									"}\r",
+									"\r",
+									"console.log(`Running Update Issue with key: ${issueKey} (iteration ${pm.info.iteration})`);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fields\": {\r\n    \"description\": {\r\n      \"type\": \"doc\",\r\n      \"version\": 1,\r\n      \"content\": [\r\n        {\r\n          \"type\": \"paragraph\",\r\n          \"content\": [\r\n            {\r\n              \"type\": \"text\",\r\n              \"text\": \"Hi! This is the updated description\"\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    }\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/issue/{{multiLangIssueKey}}",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue",
+								"{{multiLangIssueKey}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the updated issue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Post-request Script for Get Updated Issue\r",
+									"\r",
+									"const issueKey = pm.collectionVariables.get(\"multiLangIssueKey\");\r",
+									"\r",
+									"// Only run test/assertions if issueKey exists and iteration = 2 (or whichever iteration you want)\r",
+									"if (!issueKey || pm.info.iteration !== 1) {\r",
+									"    console.log(\r",
+									"        !issueKey \r",
+									"            ? \"Skipping test because multiLangIssueKey is missing\" \r",
+									"            : `Skipping test because iteration ${pm.info.iteration} is not the target`\r",
+									"    );\r",
+									"    return; // Skip tests\r",
+									"}\r",
+									"\r",
+									"// Parse response JSON\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Extract description text from ADF\r",
+									"let descriptionText = \"\";\r",
+									"if (response.fields.description && response.fields.description.content) {\r",
+									"    descriptionText = response.fields.description.content\r",
+									"        .map(block => {\r",
+									"            if (block.content) {\r",
+									"                return block.content.map(item => item.text).join(\"\");\r",
+									"            }\r",
+									"            return \"\";\r",
+									"        })\r",
+									"        .join(\"\\n\");\r",
+									"}\r",
+									"\r",
+									"// Log extracted text\r",
+									"console.log(\"Description:\", descriptionText);\r",
+									"\r",
+									"// Test: check if description matches expected value\r",
+									"pm.test(\"Description matches expected text\", function () {\r",
+									"    pm.expect(descriptionText).to.eql(\"Hi! This is the updated description\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const issueKey = pm.collectionVariables.get(\"multiLangIssueKey\");\r",
+									"\r",
+									"// Only run if issueKey exists and iteration is the one you want (e.g., iteration 2 for third run)\r",
+									"if (!issueKey || pm.info.iteration !== 1) {\r",
+									"    console.log(\r",
+									"        !issueKey\r",
+									"            ? \"Skipping this request because multiLangIssueKey is missing\"\r",
+									"            : `Skipping this request because iteration ${pm.info.iteration} is not the target`\r",
+									"    );\r",
+									"\r",
+									"    // pm.execution.setNextRequest(null); // Prevent the request from running\r",
+									"    // return; // Stop request\r",
+									"    return pm.execution.skipRequest();\r",
+									"\r",
+									"}\r",
+									"\r",
+									"// If we reach here, issueKey exists and iteration = 2 → run request\r",
+									"console.log(`Running Get Updated Issue with multiLangIssueKey: ${issueKey} on iteration ${pm.info.iteration}`);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/issue/{{multiLangIssueKey}}",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue",
+								"{{multiLangIssueKey}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4 - Delete Issue",
+			"item": [
+				{
+					"name": "Delete Issue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const issueKey = pm.collectionVariables.get(\"codeReviewKey\");\r",
+									"\r",
+									"if (pm.info.iteration === 3 && issueKey) {\r",
+									"    pm.test(\"Code Review Issue deleted successfully (204)\", function () {\r",
+									"        pm.response.to.have.status(204);\r",
+									"    });\r",
+									"    console.log(`Code Review issue ${issueKey} deleted successfully (iteration ${pm.info.iteration})`);\r",
+									"} else {\r",
+									"    const reason = !issueKey\r",
+									"        ? \"issueKey is missing\"\r",
+									"        : `current iteration is ${pm.info.iteration}`;\r",
+									"    console.log(`Skipping delete validation: ${reason}`);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const issueKey = pm.collectionVariables.get(\"codeReviewKey\");\r",
+									"\r",
+									"// Only run update on iteration 3 when codeReviewID exists\r",
+									"if (!issueKey || pm.info.iteration !== 3) {\r",
+									"    console.log(\r",
+									"        !issueKey\r",
+									"            ? \"Skipping Update Issue because codeReviewKey is missing\"\r",
+									"            : `Skipping Update Issue because iteration is ${pm.info.iteration}`\r",
+									"    );\r",
+									"    return pm.execution.skipRequest();\r",
+									"}\r",
+									"\r",
+									"console.log(`Running Update Issue with key: ${issueKey} (iteration ${pm.info.iteration})`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/issue/{{codeReviewKey}}",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue",
+								"{{codeReviewKey}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check the issue is deleted",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const issueKey = pm.collectionVariables.get(\"codeReviewKey\");\r",
+									"\r",
+									"// Only run update on iteration 3 when issueKey exists\r",
+									"if (!issueKey || pm.info.iteration !== 3) {\r",
+									"    console.log(\r",
+									"        !issueKey\r",
+									"            ? \"Skipping Update Issue because codeReviewKey is missing\"\r",
+									"            : `Skipping Update Issue because iteration is ${pm.info.iteration}`\r",
+									"    );\r",
+									"    return pm.execution.skipRequest();\r",
+									"}\r",
+									"\r",
+									"console.log(`Running Update Issue with key: ${issueKey} (iteration ${pm.info.iteration})`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const issueKey = pm.collectionVariables.get(\"codeReviewKey\");\r",
+									"\r",
+									"// Only run on iteration 3 when codeReviewKey exists\r",
+									"if (!issueKey || pm.info.iteration !== 3) {\r",
+									"    console.log(\r",
+									"        !issueKey\r",
+									"            ? \"Skipping Get Deleted Issue because codeReviewKey is missing\"\r",
+									"            : `Skipping Get Deleted Issue because iteration ${pm.info.iteration} is not the target`\r",
+									"    );\r",
+									"    return pm.execution.skipRequest();\r",
+									"}\r",
+									"\r",
+									"console.log(`Running Get Deleted Issue with key: ${issueKey} (iteration ${pm.info.iteration})`);\r",
+									"\r",
+									"// Post-request Script\r",
+									"if (pm.response.code === 404) {\r",
+									"    console.log(`Issue ${issueKey} not found — deleted successfully.`);\r",
+									"    pm.test(\"Issue deleted successfully (404)\", () => pm.expect(pm.response.code).to.eql(404));\r",
+									"    return; // Skip further parsing\r",
+									"}\r",
+									"\r",
+									"// If by any chance the issue still exists, parse safely\r",
+									"let descriptionText = \"\";\r",
+									"if (pm.response.json().fields?.description?.content) {\r",
+									"    descriptionText = pm.response.json().fields.description.content\r",
+									"        .map(block => block.content?.map(item => item.text).join(\"\") || \"\")\r",
+									"        .join(\"\\n\");\r",
+									"}\r",
+									"\r",
+									"console.log(\"Description:\", descriptionText);\r",
+									"pm.test(\"Description matches expected text (unexpected)\", () => \r",
+									"    pm.expect(descriptionText).to.eql(\"Hi! This is the updated description\")\r",
+									");\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jiraauth}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "jayamichamoda1104@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://jayamichamoda1104.atlassian.net/rest/api/3/issue/{{codeReviewKey}}",
+							"protocol": "https",
+							"host": [
+								"jayamichamoda1104",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue",
+								"{{codeReviewKey}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "permissionSchemeId",
+			"value": ""
+		},
+		{
+			"key": "notificationSchemeId",
+			"value": ""
+		},
+		{
+			"key": "projectTypeKey",
+			"value": ""
+		},
+		{
+			"key": "leadAccountId",
+			"value": ""
+		},
+		{
+			"key": "projectKey",
+			"value": ""
+		},
+		{
+			"key": "projectID",
+			"value": ""
+		},
+		{
+			"key": "storyIssueIds",
+			"value": ""
+		},
+		{
+			"key": "bugIssueIds",
+			"value": ""
+		},
+		{
+			"key": "taskIssueIds",
+			"value": ""
+		},
+		{
+			"key": "accountId",
+			"value": ""
+		},
+		{
+			"key": "issueTitle",
+			"value": ""
+		},
+		{
+			"key": "createdIssueId",
+			"value": ""
+		},
+		{
+			"key": "createdIssueKey",
+			"value": ""
+		},
+		{
+			"key": "skipProjectCreation",
+			"value": ""
+		},
+		{
+			"key": "projectExists",
+			"value": ""
+		},
+		{
+			"value": ""
+		}
+	]
+}
