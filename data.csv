@@ -1,5 +1,101 @@
 issueName,issueTitle,description
 Bug,UI alignment issue in dashboard,This is a bug regarding 'UI alignment issue in dashboard'.
 Story,Multi-language support,This is a story regarding 'Multi-language support'.
+Bug,Search function returns wrong results,This is a bug regarding 'Search function returns wrong results'.
+Bug,Search function returns wrong results,This is a bug regarding 'Search function returns wrong results'.
+Bug,UI alignment issue in dashboard,This is a bug regarding 'UI alignment issue in dashboard'.
+Bug,Incorrect error message displayed,This is a bug regarding 'Incorrect error message displayed'.
+Story,Integration with external API,This is a story regarding 'Integration with external API'.
 Task,Setup staging environment,This is a task regarding 'Setup staging environment'.
-Sub Task,Code review for PR #452,This is a sub task regarding 'Code review for PR #452'.
+Bug,UI alignment issue in dashboard,This is a bug regarding 'UI alignment issue in dashboard'.
+Bug,Profile picture not updating,This is a bug regarding 'Profile picture not updating'.
+Story,Dashboard analytics feature,This is a story regarding 'Dashboard analytics feature'.
+Bug,Login fails on invalid credentials,This is a bug regarding 'Login fails on invalid credentials'.
+Story,Two-factor authentication,This is a story regarding 'Two-factor authentication'.
+Task,Write unit tests for user module,This is a task regarding 'Write unit tests for user module'.
+Sub Task,Code review for PR #452,This is a task regarding 'Code review for PR #452'.
+Bug,Crash when uploading files,This is a bug regarding 'Crash when uploading files'.
+Bug,Profile picture not updating,This is a bug regarding 'Profile picture not updating'.
+Task,Update dependencies,This is a task regarding 'Update dependencies'.
+Bug,Payment gateway timeout,This is a bug regarding 'Payment gateway timeout'.
+Bug,Search function returns wrong results,This is a bug regarding 'Search function returns wrong results'.
+Bug,Crash when uploading files,This is a bug regarding 'Crash when uploading files'.
+Bug,Search function returns wrong results,This is a bug regarding 'Search function returns wrong results'.
+Bug,UI alignment issue in dashboard,This is a bug regarding 'UI alignment issue in dashboard'.
+Story,Dark mode feature,This is a story regarding 'Dark mode feature'.
+Bug,Data not saving correctly,This is a bug regarding 'Data not saving correctly'.
+Sub Task,Update dependencies,This is a task regarding 'Update dependencies'.
+Story,Real-time notifications,This is a story regarding 'Real-time notifications'.
+Bug,Crash when uploading files,This is a bug regarding 'Crash when uploading files'.
+Bug,Notifications not sent,This is a bug regarding 'Notifications not sent'.
+Bug,UI alignment issue in dashboard,This is a bug regarding 'UI alignment issue in dashboard'.
+Story,Dark mode feature,This is a story regarding 'Dark mode feature'.
+Sub Task,Database optimization,This is a task regarding 'Database optimization'.
+Task,Database optimization,This is a task regarding 'Database optimization'.
+Bug,Crash when uploading files,This is a bug regarding 'Crash when uploading files'.
+Task,Update UI components,This is a task regarding 'Update UI components'.
+Story,Two-factor authentication,This is a story regarding 'Two-factor authentication'.
+Bug,Login fails on invalid credentials,This is a bug regarding 'Login fails on invalid credentials'.
+Task,Update UI components,This is a task regarding 'Update UI components'.
+Bug,UI alignment issue in dashboard,This is a bug regarding 'UI alignment issue in dashboard'.
+Story,Export reports to PDF,This is a story regarding 'Export reports to PDF'.
+Task,Document API endpoints,This is a task regarding 'Document API endpoints'.
+Bug,UI alignment issue in dashboard,This is a bug regarding 'UI alignment issue in dashboard'.
+Bug,Login fails on invalid credentials,This is a bug regarding 'Login fails on invalid credentials'.
+Task,Update UI components,This is a task regarding 'Update UI components'.
+Bug,Incorrect error message displayed,This is a bug regarding 'Incorrect error message displayed'.
+Task,Write unit tests for user module,This is a task regarding 'Write unit tests for user module'.
+Task,Refactor login module,This is a task regarding 'Refactor login module'.
+Bug,Login fails on invalid credentials,This is a bug regarding 'Login fails on invalid credentials'.
+Task,Update UI components,This is a task regarding 'Update UI components'.
+Bug,Profile picture not updating,This is a bug regarding 'Profile picture not updating'.
+Task,Update UI components,This is a task regarding 'Update UI components'.
+Story,Two-factor authentication,This is a story regarding 'Two-factor authentication'.
+Bug,Login fails on invalid credentials,This is a bug regarding 'Login fails on invalid credentials'.
+Bug,Profile picture not updating,This is a bug regarding 'Profile picture not updating'.
+Story,Auto-save drafts,This is a story regarding 'Auto-save drafts'.
+Task,Write unit tests for user module,This is a task regarding 'Write unit tests for user module'.
+Story,Real-time notifications,This is a story regarding 'Real-time notifications'.
+Bug,UI alignment issue in dashboard,This is a bug regarding 'UI alignment issue in dashboard'.
+Bug,UI alignment issue in dashboard,This is a bug regarding 'UI alignment issue in dashboard'.
+Bug,Crash when uploading files,This is a bug regarding 'Crash when uploading files'.
+Bug,Profile picture not updating,This is a bug regarding 'Profile picture not updating'.
+Sub Task,Code review for PR #452,This is a task regarding 'Code review for PR #452'.
+Story,Dashboard analytics feature,This is a story regarding 'Dashboard analytics feature'.
+Story,Integration with external API,This is a story regarding 'Integration with external API'.
+Bug,Notifications not sent,This is a bug regarding 'Notifications not sent'.
+Story,Dark mode feature,This is a story regarding 'Dark mode feature'.
+Bug,Profile picture not updating,This is a bug regarding 'Profile picture not updating'.
+Story,Custom user roles,This is a story regarding 'Custom user roles'.
+Bug,Login fails on invalid credentials,This is a bug regarding 'Login fails on invalid credentials'.
+Story,Integration with external API,This is a story regarding 'Integration with external API'.
+Bug,Payment gateway timeout,This is a bug regarding 'Payment gateway timeout'.
+Bug,Notifications not sent,This is a bug regarding 'Notifications not sent'.
+Task,Performance testing,This is a task regarding 'Performance testing'.
+Bug,Data not saving correctly,This is a bug regarding 'Data not saving correctly'.
+Bug,Notifications not sent,This is a bug regarding 'Notifications not sent'.
+Story,Custom user roles,This is a story regarding 'Custom user roles'.
+Bug,Incorrect error message displayed,This is a bug regarding 'Incorrect error message displayed'.
+Bug,Data not saving correctly,This is a bug regarding 'Data not saving correctly'.
+Bug,Crash when uploading files,This is a bug regarding 'Crash when uploading files'.
+Bug,Search function returns wrong results,This is a bug regarding 'Search function returns wrong results'.
+Bug,Data not saving correctly,This is a bug regarding 'Data not saving correctly'.
+Task,Fix CSS inconsistencies,This is a task regarding 'Fix CSS inconsistencies'.
+Story,Auto-save drafts,This is a story regarding 'Auto-save drafts'.
+Bug,Crash when uploading files,This is a bug regarding 'Crash when uploading files'.
+Story,Real-time notifications,This is a story regarding 'Real-time notifications'.
+Bug,Notifications not sent,This is a bug regarding 'Notifications not sent'.
+Sub Task,Refactor login module,This is a task regarding 'Refactor login module'.
+Story,Integration with external API,This is a story regarding 'Integration with external API'.
+Bug,Data not saving correctly,This is a bug regarding 'Data not saving correctly'.
+Story,Auto-save drafts,This is a story regarding 'Auto-save drafts'.
+Story,Two-factor authentication,This is a story regarding 'Two-factor authentication'.
+Bug,Crash when uploading files,This is a bug regarding 'Crash when uploading files'.
+Bug,Login fails on invalid credentials,This is a bug regarding 'Login fails on invalid credentials'.
+Bug,Payment gateway timeout,This is a bug regarding 'Payment gateway timeout'.
+Story,Offline mode,This is a story regarding 'Offline mode'.
+Task,Performance testing,This is a task regarding 'Performance testing'.
+Story,Custom user roles,This is a story regarding 'Custom user roles'.
+Sub Task,Fix CSS inconsistencies,This is a task regarding 'Fix CSS inconsistencies'.
+Story,Offline mode,This is a story regarding 'Offline mode'.
+Story,Integration with external API,This is a story regarding 'Integration with external API'.
